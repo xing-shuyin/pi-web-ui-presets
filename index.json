@@ -3,25 +3,6 @@
 	"updatedAt": "2026-10-04T08:59:24.504Z",
 	"presets": [
 		{
-			"id": "action-smoke-test-a1687f6",
-			"name": "Action smoke test",
-			"description": "验证 Issue → Action 自动收录链路",
-			"author": "xing-shuyin",
-			"tags": [
-				"test"
-			],
-			"file": "presets/action-smoke-test-a1687f6.json",
-			"issue": 1,
-			"updatedAt": "2026-10-04T08:59:24.504Z",
-			"summary": {
-				"promptMode": "append",
-				"skills": 0,
-				"agentTools": 0,
-				"hasTemplate": false,
-				"hasReviewPrompt": false
-			}
-		},
-		{
 			"id": "token-long-run-cheap-a9fdac3",
 			"name": "省 token 长跑 Long-run cheap",
 			"description": "自动压缩更早触发 + 重试更少，适合长时间连续任务，代价是细节记忆变浅。",
