@@ -1,0 +1,104 @@
+name: Ingest shared preset
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: ingest-preset-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    # 只处理标题以 [preset] 开头的分享 Issue（pi-web-ui 的「一键分享」按此约定创建）。
+    if: startsWith(github.event.issue.title, '[preset]')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate & write preset
+        id: ingest
+        continue-on-error: true
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+        run: node scripts/ingest-preset.mjs
+
+      - name: Commit
+        if: steps.ingest.outcome == 'success'
+        run: |
+          git config user.name "preset-bot"
+          git config user.email "preset-bot@users.noreply.github.com"
+          git add -A presets index.json
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "preset: ${{ steps.ingest.outputs.name }} (#${{ github.event.issue.number }})"
+            git push origin HEAD:main
+          fi
+
+      - name: Comment success
+        if: steps.ingest.outcome == 'success'
+        uses: actions/github-script@v7
+        env:
+          PRESET_NAME: ${{ steps.ingest.outputs.name }}
+          PRESET_FILE: ${{ steps.ingest.outputs.file }}
+        with:
+          script: |
+            const body = [
+              `✅ 已收录预设 **${process.env.PRESET_NAME}**：\`${process.env.PRESET_FILE}\``,
+              ``,
+              `几分钟内即可在 pi-web-ui 的「设置 → 预设 → 浏览分享」里看到（列表缓存约 5 分钟）。`,
+            ].join("\n");
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: context.issue.number,
+              labels: ["ingested"],
+            });
+            await github.rest.issues.update({
+              ...context.repo,
+              issue_number: context.issue.number,
+              state: "closed",
+            });
+
+      - name: Comment failure
+        if: steps.ingest.outcome != 'success'
+        uses: actions/github-script@v7
+        env:
+          PRESET_ERROR: ${{ steps.ingest.outputs.error }}
+        with:
+          script: |
+            const why = process.env.PRESET_ERROR || "校验失败（请查看 Action 日志）";
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: [
+                `❌ 这个预设没有通过校验：**${why}**`,
+                ``,
+                `修正后**直接编辑本 Issue 正文**，我（Action）会自动重试。`,
+                `格式说明见 [README](https://github.com/${context.repo.owner}/${context.repo.repo}#readme)。`,
+              ].join("\n"),
+            });
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: context.issue.number,
+              labels: ["needs-fix"],
+            });

@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: pi-web-ui 仓库 / Repository
+    url: https://github.com/xing-shuyin/pi-web-ui
+    about: 客户端本体、Bug 与功能建议 / The app itself

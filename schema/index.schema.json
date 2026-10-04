@@ -1,0 +1,39 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "https://raw.githubusercontent.com/xing-shuyin/pi-web-ui-presets/main/schema/index.schema.json",
+	"title": "pi-web-ui preset catalog index",
+	"type": "object",
+	"required": ["version", "presets"],
+	"properties": {
+		"version": { "const": 1 },
+		"updatedAt": { "type": "string" },
+		"presets": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["id", "name", "file"],
+				"properties": {
+					"id": { "type": "string" },
+					"name": { "type": "string" },
+					"description": { "type": "string" },
+					"author": { "type": "string" },
+					"tags": { "type": "array", "items": { "type": "string" } },
+					"file": { "type": "string" },
+					"issue": { "type": "integer" },
+					"updatedAt": { "type": "string" },
+					"summary": {
+						"type": "object",
+						"description": "便于列表展示的摘要（由导入脚本生成）",
+						"properties": {
+							"promptMode": { "type": "string" },
+							"skills": { "type": "integer" },
+							"agentTools": { "type": "integer" },
+							"hasTemplate": { "type": "boolean" },
+							"hasReviewPrompt": { "type": "boolean" }
+						}
+					}
+				}
+			}
+		}
+	}
+}

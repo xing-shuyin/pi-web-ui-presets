@@ -1,0 +1,34 @@
+{
+	"format": "pi-web-ui-preset",
+	"version": 1,
+	"name": "省 token 长跑 Long-run cheap",
+	"description": "自动压缩更早触发 + 重试更少，适合长时间连续任务，代价是细节记忆变浅。",
+	"author": "xing-shuyin",
+	"tags": [
+		"省 token",
+		"长任务"
+	],
+	"createdAt": "2026-01-01T00:00:00.000Z",
+	"appVersion": "seed",
+	"settings": {
+		"promptMode": "append",
+		"customSystemPrompt": "长任务里优先保持上下文精简：不要复述已有结论，不要重复贴大段已知文件内容，需要时只说文件与行号。",
+		"promptTemplate": "",
+		"promptOverrides": {},
+		"disabledSkills": [],
+		"disabledExtensions": [],
+		"disabledAgentTools": [],
+		"disabledPluginTools": [],
+		"terminalToolsEnabled": true,
+		"terminalBash": false,
+		"terminalBashIdleMs": 0,
+		"terminalBashMaxForegroundMs": 0,
+		"reviewPrompt": "",
+		"reviewDisabledSkills": [],
+		"retryMaxAttempts": 2,
+		"softCapTokens": 60000,
+		"softCapByModel": {}
+	},
+	"id": "token-long-run-cheap-a9fdac3",
+	"updatedAt": "2026-10-04T08:12:02.487Z"
+}

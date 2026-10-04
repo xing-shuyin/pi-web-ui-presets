@@ -1,0 +1,63 @@
+{
+	"version": 1,
+	"updatedAt": "2026-10-04T08:12:02.487Z",
+	"presets": [
+		{
+			"id": "token-long-run-cheap-a9fdac3",
+			"name": "省 token 长跑 Long-run cheap",
+			"description": "自动压缩更早触发 + 重试更少，适合长时间连续任务，代价是细节记忆变浅。",
+			"author": "xing-shuyin",
+			"tags": [
+				"省 token",
+				"长任务"
+			],
+			"file": "presets/token-long-run-cheap-a9fdac3.json",
+			"updatedAt": "2026-10-04T08:12:02.487Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 0,
+				"agentTools": 0,
+				"hasTemplate": false,
+				"hasReviewPrompt": false
+			}
+		},
+		{
+			"id": "strict-review-ecc3072",
+			"name": "严格审查 Strict review",
+			"description": "目标审查偏向安全与边界：注入、越权、并发、错误处理、可回滚性逐条过。",
+			"author": "xing-shuyin",
+			"tags": [
+				"审查",
+				"安全"
+			],
+			"file": "presets/strict-review-ecc3072.json",
+			"updatedAt": "2026-10-04T08:12:01.800Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 0,
+				"agentTools": 0,
+				"hasTemplate": false,
+				"hasReviewPrompt": true
+			}
+		},
+		{
+			"id": "minimal-3f5b241",
+			"name": "极简回复 Minimal",
+			"description": "让回答短下来：先给结论，只保留必要细节，不复述问题。",
+			"author": "xing-shuyin",
+			"tags": [
+				"简洁",
+				"日常"
+			],
+			"file": "presets/minimal-3f5b241.json",
+			"updatedAt": "2026-10-04T08:12:01.133Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 0,
+				"agentTools": 0,
+				"hasTemplate": false,
+				"hasReviewPrompt": false
+			}
+		}
+	]
+}

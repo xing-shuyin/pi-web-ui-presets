@@ -1,0 +1,27 @@
+name: Share a preset
+description: 分享一个 pi-web-ui 设置预设（把导出的 JSON 粘进来即可）
+title: "[preset] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        在 pi-web-ui 里：**设置 → 预设**，点某个预设的 **分享** 按钮，
+        复制它生成的 JSON，然后粘贴到下面的代码块里提交。
+        提交后机器人会自动校验、收录，并关闭本 Issue（失败时会在下面告诉你原因）。
+  - type: textarea
+    id: preset
+    attributes:
+      label: 预设 JSON
+      description: 保留 ```json 围栏，内容就是导出/分享得到的那段 JSON。
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: 备注（可选）
+      description: 这个预设适合什么场景？
+      render: text
+    validations:
+      required: false

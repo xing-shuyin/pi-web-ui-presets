@@ -1,0 +1,34 @@
+{
+	"format": "pi-web-ui-preset",
+	"version": 1,
+	"name": "极简回复 Minimal",
+	"description": "让回答短下来：先给结论，只保留必要细节，不复述问题。",
+	"author": "xing-shuyin",
+	"tags": [
+		"简洁",
+		"日常"
+	],
+	"createdAt": "2026-01-01T00:00:00.000Z",
+	"appVersion": "seed",
+	"settings": {
+		"promptMode": "append",
+		"customSystemPrompt": "回答尽量简短：先给结论，再给必要细节；不要复述我的问题，不要写“好的/当然可以”这类开场白。代码只在必要时给完整片段。",
+		"promptTemplate": "",
+		"promptOverrides": {},
+		"disabledSkills": [],
+		"disabledExtensions": [],
+		"disabledAgentTools": [],
+		"disabledPluginTools": [],
+		"terminalToolsEnabled": true,
+		"terminalBash": false,
+		"terminalBashIdleMs": 0,
+		"terminalBashMaxForegroundMs": 0,
+		"reviewPrompt": "",
+		"reviewDisabledSkills": [],
+		"retryMaxAttempts": 3,
+		"softCapTokens": 0,
+		"softCapByModel": {}
+	},
+	"id": "minimal-3f5b241",
+	"updatedAt": "2026-10-04T08:12:01.133Z"
+}
