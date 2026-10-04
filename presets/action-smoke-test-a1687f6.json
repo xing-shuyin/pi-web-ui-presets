@@ -1,0 +1,21 @@
+{
+	"format": "pi-web-ui-preset",
+	"version": 1,
+	"name": "Action smoke test",
+	"description": "验证 Issue → Action 自动收录链路",
+	"author": "xing-shuyin",
+	"tags": [
+		"test"
+	],
+	"createdAt": "2026-01-01T00:00:00.000Z",
+	"appVersion": "",
+	"settings": {
+		"promptMode": "append",
+		"customSystemPrompt": "smoke",
+		"disabledSkills": [],
+		"retryMaxAttempts": 3
+	},
+	"id": "action-smoke-test-a1687f6",
+	"updatedAt": "2026-10-04T08:59:24.504Z",
+	"issue": 1
+}
