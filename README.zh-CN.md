@@ -21,8 +21,8 @@ https://raw.githubusercontent.com/xing-shuyin/pi-web-ui-presets/main/presets/<�
 ## 分享自己的预设
 
 **在客户端里（推荐）**：「设置 → 预设」里点某个预设的 **分享** 按钮。pi-web-ui 会替你在本仓库开一条
-GitHub Issue（有 `gh` 命令就直接建，没有就打开预填好的网页），机器人校验通过后自动写进 `presets/`、
-更新 `index.json`、评论并关闭 Issue。
+GitHub Issue（有 `gh` 命令或 GitHub 令牌就直接提交；两者都没有则打开**已预填内容**的页面，点一下 Submit 即可），
+机器人校验通过后自动写进 `presets/`、更新 `index.json`、评论并关闭 Issue。
 
 **手工提交**：新建标题为 `[preset] <名称>` 的 Issue，把导出的 JSON 放进 ` ```json ` 代码块；或者直接提
 PR，添加 `presets/<文件>.json` **和** `index.json` 里的对应条目（提交前先跑 `node scripts/validate-repo.mjs`）。

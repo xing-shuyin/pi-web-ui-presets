@@ -21,8 +21,8 @@ Importing a preset whose name already exists overwrites that preset (nothing els
 ## Share a preset
 
 **From the app (recommended):** **Settings → Presets** → the **Share** button on a preset row. pi-web-ui
-creates a GitHub issue in this repository for you (via the `gh` CLI, or a prefilled browser tab if `gh`
-is not installed). A bot validates it, commits it to `presets/`, updates `index.json`, comments and closes
+creates a GitHub issue in this repository for you (via the `gh` CLI or a GitHub token; with neither, a
+prefilled browser tab opens and a single click submits it). A bot validates it, commits it to `presets/`, updates `index.json`, comments and closes
 the issue.
 
 **Manually:** open a new issue with the title `[preset] <name>` and paste the exported JSON inside a
