@@ -1,7 +1,26 @@
 {
 	"version": 1,
-	"updatedAt": "2026-10-04T08:59:24.504Z",
+	"updatedAt": "2026-10-04T11:47:34.651Z",
 	"presets": [
+		{
+			"id": "current-settings-b7ee584",
+			"name": "Current settings",
+			"description": "测试",
+			"author": "xing-shuyin",
+			"tags": [
+				"测试"
+			],
+			"file": "presets/current-settings-b7ee584.json",
+			"issue": 3,
+			"updatedAt": "2026-10-04T11:47:34.651Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 0,
+				"agentTools": 32,
+				"hasTemplate": false,
+				"hasReviewPrompt": false
+			}
+		},
 		{
 			"id": "token-long-run-cheap-a9fdac3",
 			"name": "省 token 长跑 Long-run cheap",
