@@ -1,7 +1,30 @@
 {
 	"version": 1,
-	"updatedAt": "2026-10-04T11:47:34.651Z",
+	"updatedAt": "2026-10-05T03:27:05.699Z",
 	"presets": [
+		{
+			"id": "preset-e85731d",
+			"name": "极简学术写作与文献审稿",
+			"description": "专注论文撰写、深度研读与学术润色：UI 彻底隐藏开发者与终端图标、保留纯净写作视野、禁用全部写操作与执行工具（仅只读）、超大上下文保留（60k tokens）、学术快捷短语。",
+			"author": "academic-lab",
+			"tags": [
+				"写作",
+				"学术",
+				"只读",
+				"极简",
+				"大上下文"
+			],
+			"file": "presets/preset-e85731d.json",
+			"issue": 5,
+			"updatedAt": "2026-10-05T03:27:05.699Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 0,
+				"agentTools": 27,
+				"hasTemplate": false,
+				"hasReviewPrompt": false
+			}
+		},
 		{
 			"id": "current-settings-b7ee584",
 			"name": "Current settings",
