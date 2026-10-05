@@ -1,7 +1,30 @@
 {
 	"version": 1,
-	"updatedAt": "2026-10-05T03:27:53.191Z",
+	"updatedAt": "2026-10-05T03:28:27.944Z",
 	"presets": [
+		{
+			"id": "preset-bf195de",
+			"name": "敏捷架构设计与代码审查",
+			"description": "专为技术主管与架构师打造：UI 强化计划与审查入口、内置目标模式 2.0 审查者提示词与 Plan Mode 规划约束、写操作强审批门禁、架构级审查快捷短语。",
+			"author": "ciso-team",
+			"tags": [
+				"架构",
+				"审查",
+				"目标模式",
+				"计划",
+				"安全"
+			],
+			"file": "presets/preset-bf195de.json",
+			"issue": 6,
+			"updatedAt": "2026-10-05T03:28:27.944Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 0,
+				"agentTools": 22,
+				"hasTemplate": false,
+				"hasReviewPrompt": true
+			}
+		},
 		{
 			"id": "preset-bbd21bd",
 			"name": "全栈极客沉浸式开发",
