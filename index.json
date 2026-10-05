@@ -1,7 +1,30 @@
 {
 	"version": 1,
-	"updatedAt": "2026-10-05T03:27:05.699Z",
+	"updatedAt": "2026-10-05T03:27:53.191Z",
 	"presets": [
+		{
+			"id": "preset-bbd21bd",
+			"name": "全栈极客沉浸式开发",
+			"description": "专为全栈与系统开发者设计：浮动停靠栏极简 UI（纯图标去文字）、终端交互接管、全套编码与补丁工具、常用开发快捷短语、深度调试指导。",
+			"author": "pi-team",
+			"tags": [
+				"开发",
+				"极客",
+				"UI定制",
+				"终端",
+				"全栈"
+			],
+			"file": "presets/preset-bbd21bd.json",
+			"issue": 4,
+			"updatedAt": "2026-10-05T03:27:53.191Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 0,
+				"agentTools": 14,
+				"hasTemplate": false,
+				"hasReviewPrompt": false
+			}
+		},
 		{
 			"id": "preset-e85731d",
 			"name": "极简学术写作与文献审稿",
