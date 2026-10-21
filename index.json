@@ -1,7 +1,24 @@
 {
 	"version": 1,
-	"updatedAt": "2026-10-05T03:28:27.944Z",
+	"updatedAt": "2026-10-21T01:59:32.982Z",
 	"presets": [
+		{
+			"id": "preset-aa7fa06",
+			"name": "当前设置",
+			"description": "自用",
+			"author": "xing-shuyin",
+			"tags": [],
+			"file": "presets/preset-aa7fa06.json",
+			"issue": 7,
+			"updatedAt": "2026-10-21T01:59:32.982Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 1,
+				"agentTools": 73,
+				"hasTemplate": false,
+				"hasReviewPrompt": false
+			}
+		},
 		{
 			"id": "preset-bf195de",
 			"name": "敏捷架构设计与代码审查",
