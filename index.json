@@ -1,20 +1,16 @@
 {
 	"version": 1,
-	"updatedAt": "2026-10-29T05:24:56.246Z",
+	"updatedAt": "2026-10-29T05:40:03.633Z",
 	"presets": [
 		{
-			"id": "claude-code-0815c0d",
-			"name": "Claude Code 风格编码（实验）",
-			"description": "提炼调查、根因修复、持续执行和验证闭环的实验预设；非 Anthropic 官方提示词。保留所有自动提示词来源，清空逐段覆盖并启用所有段落。",
+			"id": "writing-d1f9f00",
+			"name": "文档写作 Writing",
+			"description": "根据代码和资料写可直接使用的说明、教程或报告：明确读者，核对命令与事实，保留引用，不编造来源、测试结果和功能。 仅调整组合模板、清空逐段覆盖与禁用段，并替换快捷短语；应用前请保存原配置。",
 			"author": "xing-shuyin",
-			"tags": [
-				"coding",
-				"experimental",
-				"workflow"
-			],
-			"file": "presets/claude-code-0815c0d.json",
+			"tags": ["documentation", "writing"],
+			"file": "presets/writing-d1f9f00.json",
 			"issue": null,
-			"updatedAt": "2026-10-29T05:24:56.246Z",
+			"updatedAt": "2026-10-29T05:29:52.080Z",
 			"summary": {
 				"promptMode": "append",
 				"skills": 0,
@@ -24,164 +20,70 @@
 			}
 		},
 		{
-			"id": "preset-aa7fa06",
-			"name": "当前设置",
-			"description": "自用",
+			"id": "performance-ba37068",
+			"name": "性能优化 Performance",
+			"description": "围绕可测瓶颈优化：记录基线，区分 CPU、I/O、内存和渲染成本，用一致负载对比结果。适合加载慢、卡顿、内存增长与重复计算。 仅调整组合模板、清空逐段覆盖与禁用段，并替换快捷短语；应用前请保存原配置。",
 			"author": "xing-shuyin",
-			"tags": [],
-			"file": "presets/preset-aa7fa06.json",
-			"issue": 7,
-			"updatedAt": "2026-10-21T01:59:32.982Z",
-			"summary": {
-				"promptMode": "append",
-				"skills": 1,
-				"agentTools": 73,
-				"hasTemplate": false,
-				"hasReviewPrompt": false
-			}
-		},
-		{
-			"id": "preset-bf195de",
-			"name": "敏捷架构设计与代码审查",
-			"description": "专为技术主管与架构师打造：UI 强化计划与审查入口、内置目标模式 2.0 审查者提示词与 Plan Mode 规划约束、写操作强审批门禁、架构级审查快捷短语。",
-			"author": "ciso-team",
-			"tags": [
-				"架构",
-				"审查",
-				"目标模式",
-				"计划",
-				"安全"
-			],
-			"file": "presets/preset-bf195de.json",
-			"issue": 6,
-			"updatedAt": "2026-10-05T03:28:27.944Z",
-			"summary": {
-				"promptMode": "append",
-				"skills": 0,
-				"agentTools": 22,
-				"hasTemplate": false,
-				"hasReviewPrompt": true
-			}
-		},
-		{
-			"id": "preset-bbd21bd",
-			"name": "全栈极客沉浸式开发",
-			"description": "专为全栈与系统开发者设计：浮动停靠栏极简 UI（纯图标去文字）、终端交互接管、全套编码与补丁工具、常用开发快捷短语、深度调试指导。",
-			"author": "pi-team",
-			"tags": [
-				"开发",
-				"极客",
-				"UI定制",
-				"终端",
-				"全栈"
-			],
-			"file": "presets/preset-bbd21bd.json",
-			"issue": 4,
-			"updatedAt": "2026-10-05T03:27:53.191Z",
-			"summary": {
-				"promptMode": "append",
-				"skills": 0,
-				"agentTools": 14,
-				"hasTemplate": false,
-				"hasReviewPrompt": false
-			}
-		},
-		{
-			"id": "preset-e85731d",
-			"name": "极简学术写作与文献审稿",
-			"description": "专注论文撰写、深度研读与学术润色：UI 彻底隐藏开发者与终端图标、保留纯净写作视野、禁用全部写操作与执行工具（仅只读）、超大上下文保留（60k tokens）、学术快捷短语。",
-			"author": "academic-lab",
-			"tags": [
-				"写作",
-				"学术",
-				"只读",
-				"极简",
-				"大上下文"
-			],
-			"file": "presets/preset-e85731d.json",
-			"issue": 5,
-			"updatedAt": "2026-10-05T03:27:05.699Z",
-			"summary": {
-				"promptMode": "append",
-				"skills": 0,
-				"agentTools": 27,
-				"hasTemplate": false,
-				"hasReviewPrompt": false
-			}
-		},
-		{
-			"id": "current-settings-b7ee584",
-			"name": "Current settings",
-			"description": "测试",
-			"author": "xing-shuyin",
-			"tags": [
-				"测试"
-			],
-			"file": "presets/current-settings-b7ee584.json",
-			"issue": 3,
-			"updatedAt": "2026-10-04T11:47:34.651Z",
-			"summary": {
-				"promptMode": "append",
-				"skills": 0,
-				"agentTools": 32,
-				"hasTemplate": false,
-				"hasReviewPrompt": false
-			}
-		},
-		{
-			"id": "token-long-run-cheap-a9fdac3",
-			"name": "省 token 长跑 Long-run cheap",
-			"description": "自动压缩更早触发 + 重试更少，适合长时间连续任务，代价是细节记忆变浅。",
-			"author": "xing-shuyin",
-			"tags": [
-				"省 token",
-				"长任务"
-			],
-			"file": "presets/token-long-run-cheap-a9fdac3.json",
-			"updatedAt": "2026-10-04T08:12:02.487Z",
+			"tags": ["coding", "performance"],
+			"file": "presets/performance-ba37068.json",
+			"issue": null,
+			"updatedAt": "2026-10-29T05:29:52.080Z",
 			"summary": {
 				"promptMode": "append",
 				"skills": 0,
 				"agentTools": 0,
-				"hasTemplate": false,
+				"hasTemplate": true,
 				"hasReviewPrompt": false
 			}
 		},
 		{
-			"id": "strict-review-ecc3072",
-			"name": "严格审查 Strict review",
-			"description": "目标审查偏向安全与边界：注入、越权、并发、错误处理、可回滚性逐条过。",
+			"id": "review-b37fa8a",
+			"name": "代码审查 Review",
+			"description": "对指定 diff 或模块进行证据驱动的审查，输出严重性、文件行号、触发条件和修复方向。默认不改代码；这是行为约定，并非只读权限隔离。 仅调整组合模板、清空逐段覆盖与禁用段，并替换快捷短语；应用前请保存原配置。",
 			"author": "xing-shuyin",
-			"tags": [
-				"审查",
-				"安全"
-			],
-			"file": "presets/strict-review-ecc3072.json",
-			"updatedAt": "2026-10-04T08:12:01.800Z",
+			"tags": ["coding", "review"],
+			"file": "presets/review-b37fa8a.json",
+			"issue": null,
+			"updatedAt": "2026-10-29T05:29:52.080Z",
 			"summary": {
 				"promptMode": "append",
 				"skills": 0,
 				"agentTools": 0,
-				"hasTemplate": false,
-				"hasReviewPrompt": true
+				"hasTemplate": true,
+				"hasReviewPrompt": false
 			}
 		},
 		{
-			"id": "minimal-3f5b241",
-			"name": "极简回复 Minimal",
-			"description": "让回答短下来：先给结论，只保留必要细节，不复述问题。",
+			"id": "debugging-f60d791",
+			"name": "故障修复 Debugging",
+			"description": "从症状追到根因：建立复现和证据，检查状态归属、异步生命周期与失败路径，实施修复并做针对性回归。适合偶发错误、竞态和线上故障。 仅调整组合模板、清空逐段覆盖与禁用段，并替换快捷短语；应用前请保存原配置。",
 			"author": "xing-shuyin",
-			"tags": [
-				"简洁",
-				"日常"
-			],
-			"file": "presets/minimal-3f5b241.json",
-			"updatedAt": "2026-10-04T08:12:01.133Z",
+			"tags": ["coding", "debugging"],
+			"file": "presets/debugging-f60d791.json",
+			"issue": null,
+			"updatedAt": "2026-10-29T05:29:52.080Z",
 			"summary": {
 				"promptMode": "append",
 				"skills": 0,
 				"agentTools": 0,
-				"hasTemplate": false,
+				"hasTemplate": true,
+				"hasReviewPrompt": false
+			}
+		},
+		{
+			"id": "development-11fa9d6",
+			"name": "日常开发 Development",
+			"description": "把需求落实为可验收的代码：确认现有行为和验收条件，沿用项目结构，完成实现、相关检查与结果说明。适合功能开发和小范围改造。 仅调整组合模板、清空逐段覆盖与禁用段，并替换快捷短语；应用前请保存原配置。",
+			"author": "xing-shuyin",
+			"tags": ["coding", "implementation"],
+			"file": "presets/development-11fa9d6.json",
+			"issue": null,
+			"updatedAt": "2026-10-29T05:29:52.080Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 0,
+				"agentTools": 0,
+				"hasTemplate": true,
 				"hasReviewPrompt": false
 			}
 		}

@@ -38,6 +38,27 @@
 		"appVersion": {
 			"type": "string"
 		},
+		"enabledTools": {
+			"type": "array",
+			"maxItems": 200,
+			"items": { "type": "string" }
+		},
+		"plugins": {
+			"type": "array",
+			"maxItems": 32,
+			"description": "Optional plugin requirements; installation requires user consent. No plugin settings or secrets.",
+			"items": {
+				"type": "object",
+				"required": ["id"],
+				"additionalProperties": false,
+				"properties": {
+					"id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,100}$" },
+					"name": { "type": "string", "maxLength": 100 },
+					"source": { "type": "string", "maxLength": 300 },
+					"version": { "type": "string", "maxLength": 60 }
+				}
+			}
+		},
 		"settings": {
 			"type": "object",
 			"description": "与 pi-web-ui 设置预设一一对应的字段（见 pi-web-ui 仓库 server/client-state.ts 的 SettingsPreset）。未知字段会被导入端忽略。",

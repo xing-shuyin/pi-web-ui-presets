@@ -6,6 +6,20 @@ Community-shared **settings presets** for [pi-web-ui](https://github.com/xing-sh
 - Catalog: [`index.json`](index.json) — what the app's **Settings → Presets → Browse shared** list reads.
 - Preset files: [`presets/`](presets/)
 
+## Curated presets
+
+| Preset      | Use case                                | Expected outcome                                                      |
+| ----------- | --------------------------------------- | --------------------------------------------------------------------- |
+| Development | Features and focused changes            | Acceptance criteria, complete implementation and verification         |
+| Debugging   | Errors, races and intermittent failures | Reproduction evidence, root cause and regression checks               |
+| Review      | Diffs, commits and modules              | Prioritized findings with locations and triggers; no edits by default |
+| Performance | Slow loading, stalls and memory growth  | Baseline, measured bottleneck and comparable results                  |
+| Writing     | Guides, documentation and reports       | Verified facts, usable instructions and accurate attribution          |
+
+These presets retain every dynamic prompt source. They replace the composition template, clear section overrides and disabled sections, and replace quick phrases with three task-specific entries. They do not carry permission settings, tool toggles or fixed compaction thresholds. Save your configuration before applying. Review is a behavioral workflow, not a read-only sandbox.
+
+Share documents may also carry top-level `plugins` requirements (`id`, `name`, GitHub `source`, reference `version`). Supporting clients identify missing plugins and install them through explicit consent. Versions are informational, not version locks. Plugin credentials, settings, storage and permission grants are excluded. Older clients ignore this metadata.
+
 ## Use a shared preset
 
 **Easiest:** open pi-web-ui → **Settings → Presets → Browse shared**, search, click **Import**.
@@ -38,13 +52,13 @@ pasted text and URLs.
 {
   "format": "pi-web-ui-preset",
   "version": 1,
-  "name": "My preset",            // required, ≤ 60 chars, import target name
+  "name": "My preset", // required, ≤ 60 chars, import target name
   "description": "What it is for", // optional, ≤ 500 chars
-  "author": "github-login",        // optional
-  "tags": ["coding", "minimal"],   // optional, ≤ 8 tags
+  "author": "github-login", // optional
+  "tags": ["coding", "minimal"], // optional, ≤ 8 tags
   "createdAt": "2026-01-01T00:00:00.000Z",
-  "appVersion": "1.2.3",           // optional
-  "settings": { /* pi-web-ui SettingsPreset fields */ }
+  "appVersion": "1.2.3", // optional
+  "settings": {/* pi-web-ui SettingsPreset fields */},
 }
 ```
 
@@ -58,15 +72,21 @@ JSON Schemas: [`schema/preset.schema.json`](schema/preset.schema.json), [`schema
 
 ```jsonc
 {
-  "id": "my-preset-1a2b3c4",       // <slug>-<sha1(settings)[0..7]>
+  "id": "my-preset-1a2b3c4", // <slug>-<sha1(settings)[0..7]>
   "name": "My preset",
   "description": "...",
   "author": "github-login",
   "tags": ["coding"],
   "file": "presets/my-preset-1a2b3c4.json",
-  "issue": 12,                      // originating issue, if any
+  "issue": 12, // originating issue, if any
   "updatedAt": "2026-01-01T00:00:00.000Z",
-  "summary": { "promptMode": "append", "skills": 2, "agentTools": 0, "hasTemplate": true, "hasReviewPrompt": false }
+  "summary": {
+    "promptMode": "append",
+    "skills": 2,
+    "agentTools": 0,
+    "hasTemplate": true,
+    "hasReviewPrompt": false,
+  },
 }
 ```
 
@@ -78,10 +98,10 @@ template. Review it in the import dialog first; nothing is applied until you pre
 
 ## Automation
 
-| Workflow | Trigger | What it does |
-| --- | --- | --- |
-| [`ingest-preset.yml`](.github/workflows/ingest-preset.yml) | issue opened/edited with title `[preset] …` | validates the JSON, writes `presets/<id>.json`, updates `index.json`, commits, comments, closes |
-| [`validate-presets.yml`](.github/workflows/validate-presets.yml) | push / PR touching `presets/**`, `index.json` | `node scripts/validate-repo.mjs` — index ↔ files must agree |
+| Workflow                                                         | Trigger                                       | What it does                                                                                    |
+| ---------------------------------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [`ingest-preset.yml`](.github/workflows/ingest-preset.yml)       | issue opened/edited with title `[preset] …`   | validates the JSON, writes `presets/<id>.json`, updates `index.json`, commits, comments, closes |
+| [`validate-presets.yml`](.github/workflows/validate-presets.yml) | push / PR touching `presets/**`, `index.json` | `node scripts/validate-repo.mjs` — index ↔ files must agree                                     |
 
 ## License
 

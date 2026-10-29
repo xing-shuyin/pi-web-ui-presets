@@ -11,7 +11,13 @@
  * 失败原因并给 Issue 打上 needs-fix 标签。
  */
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -37,7 +43,10 @@ export function slugify(name) {
 }
 
 export function presetId(name, body) {
-	const hash = createHash("sha1").update(String(body)).digest("hex").slice(0, 7);
+	const hash = createHash("sha1")
+		.update(String(body))
+		.digest("hex")
+		.slice(0, 7);
 	return `${slugify(name)}-${hash}`;
 }
 
@@ -46,12 +55,17 @@ export function extractJsonBlock(body) {
 	const text = String(body ?? "");
 	const fence = /```(?:json|JSON)?\s*\n([\s\S]*?)```/.exec(text);
 	const raw = (fence ? fence[1] : text).trim();
-	if (!raw) throw new Error("Issue 正文里没有找到 JSON（请把导出文件内容放进 ```json 代码块）");
+	if (!raw)
+		throw new Error(
+			"Issue 正文里没有找到 JSON（请把导出文件内容放进 ```json 代码块）",
+		);
 	let parsed;
 	try {
 		parsed = JSON.parse(raw);
 	} catch (err) {
-		throw new Error(`JSON 解析失败：${err instanceof Error ? err.message : String(err)}`);
+		throw new Error(
+			`JSON 解析失败：${err instanceof Error ? err.message : String(err)}`,
+		);
 	}
 	return { parsed, raw };
 }
@@ -61,10 +75,17 @@ export function validateDoc(parsed) {
 	if (Array.isArray(parsed)) {
 		throw new Error("一次只能提交一个预设（数组中请只保留一个对象）");
 	}
-	if (!parsed || typeof parsed !== "object") throw new Error("JSON 顶层必须是一个对象");
+	if (!parsed || typeof parsed !== "object")
+		throw new Error("JSON 顶层必须是一个对象");
 	const doc = parsed;
-	if (doc.format !== FORMAT) throw new Error(`format 必须是 "${FORMAT}"（当前为 ${JSON.stringify(doc.format)}）`);
-	if (doc.version !== VERSION) throw new Error(`version 必须是 ${VERSION}（当前为 ${JSON.stringify(doc.version)}）`);
+	if (doc.format !== FORMAT)
+		throw new Error(
+			`format 必须是 "${FORMAT}"（当前为 ${JSON.stringify(doc.format)}）`,
+		);
+	if (doc.version !== VERSION)
+		throw new Error(
+			`version 必须是 ${VERSION}（当前为 ${JSON.stringify(doc.version)}）`,
+		);
 	const name = typeof doc.name === "string" ? doc.name.trim() : "";
 	if (!name) throw new Error("name 不能为空");
 	if (name.length > 60) throw new Error("name 最长 60 个字符");
@@ -73,7 +94,8 @@ export function validateDoc(parsed) {
 		throw new Error("settings 必须是一个对象");
 	}
 	const size = Buffer.byteLength(JSON.stringify(settings), "utf8");
-	if (size > MAX_SETTINGS_BYTES) throw new Error(`settings 过大（${size} 字节 > ${MAX_SETTINGS_BYTES}）`);
+	if (size > MAX_SETTINGS_BYTES)
+		throw new Error(`settings 过大（${size} 字节 > ${MAX_SETTINGS_BYTES}）`);
 	const tags = Array.isArray(doc.tags)
 		? doc.tags
 				.filter((t) => typeof t === "string" && t.trim())
@@ -84,38 +106,127 @@ export function validateDoc(parsed) {
 		format: FORMAT,
 		version: VERSION,
 		name,
-		description: typeof doc.description === "string" ? doc.description.trim().slice(0, 500) : "",
-		author: typeof doc.author === "string" ? doc.author.trim().slice(0, 80) : "",
+		description:
+			typeof doc.description === "string"
+				? doc.description.trim().slice(0, 500)
+				: "",
+		author:
+			typeof doc.author === "string" ? doc.author.trim().slice(0, 80) : "",
 		tags,
-		createdAt: typeof doc.createdAt === "string" ? doc.createdAt : new Date().toISOString(),
+		createdAt:
+			typeof doc.createdAt === "string"
+				? doc.createdAt
+				: new Date().toISOString(),
 		appVersion: typeof doc.appVersion === "string" ? doc.appVersion : "",
+		...(Array.isArray(doc.enabledTools)
+			? {
+					enabledTools: doc.enabledTools
+						.filter((v) => typeof v === "string")
+						.slice(0, 200),
+				}
+			: {}),
+		...(Array.isArray(doc.plugins)
+			? { plugins: normalizePlugins(doc.plugins) }
+			: {}),
 		settings,
 	};
+}
+
+/** Preserve portable dependency metadata, never plugin secrets or local paths. */
+export function normalizePlugins(input) {
+	const seen = new Set();
+	return input.slice(0, 32).flatMap((item) => {
+		if (
+			!item ||
+			typeof item !== "object" ||
+			typeof item.id !== "string" ||
+			!/^[A-Za-z0-9_-]{1,100}$/.test(item.id) ||
+			seen.has(item.id)
+		)
+			return [];
+		seen.add(item.id);
+		let source = typeof item.source === "string" ? item.source.trim() : "";
+		if (source.startsWith("https://")) {
+			try {
+				const url = new URL(source);
+				source =
+					url.hostname === "github.com" &&
+					!url.username &&
+					!url.password &&
+					!url.port &&
+					!url.search
+						? url.pathname.slice(1) + url.hash
+						: "";
+			} catch {
+				source = "";
+			}
+		}
+		const [path, ref, extra] = source.split("#");
+		const segments = path.split("/");
+		if (
+			source.length > 300 ||
+			extra !== undefined ||
+			segments.length < 2 ||
+			segments.some(
+				(s) => !/^[A-Za-z0-9_.-]+$/.test(s) || s === "." || s === "..",
+			) ||
+			(ref !== undefined &&
+				(!/^[A-Za-z0-9_./-]+$/.test(ref) ||
+					ref.split("/").some((s) => !s || s === "." || s === "..")))
+		)
+			source = "";
+		return [
+			{
+				id: item.id,
+				...(typeof item.name === "string" && item.name.trim()
+					? { name: item.name.trim().slice(0, 100) }
+					: {}),
+				...(typeof item.version === "string" && item.version.trim()
+					? { version: item.version.trim().slice(0, 60) }
+					: {}),
+				...(source ? { source } : {}),
+			},
+		];
+	});
 }
 
 /** 列表展示用的摘要。 */
 export function summarize(settings) {
 	const arr = (v) => (Array.isArray(v) ? v.length : 0);
 	return {
-		promptMode: typeof settings.promptMode === "string" ? settings.promptMode : "append",
+		promptMode:
+			typeof settings.promptMode === "string" ? settings.promptMode : "append",
 		skills: arr(settings.disabledSkills) + arr(settings.reviewDisabledSkills),
-		agentTools: arr(settings.disabledAgentTools) + arr(settings.disabledPluginTools),
-		hasTemplate: typeof settings.promptTemplate === "string" && settings.promptTemplate.trim().length > 0,
-		hasReviewPrompt: typeof settings.reviewPrompt === "string" && settings.reviewPrompt.trim().length > 0,
+		agentTools:
+			arr(settings.disabledAgentTools) + arr(settings.disabledPluginTools),
+		hasTemplate:
+			typeof settings.promptTemplate === "string" &&
+			settings.promptTemplate.trim().length > 0,
+		hasReviewPrompt:
+			typeof settings.reviewPrompt === "string" &&
+			settings.reviewPrompt.trim().length > 0,
 	};
 }
 
 function readIndex() {
-	if (!existsSync(INDEX_FILE)) return { version: 1, updatedAt: new Date().toISOString(), presets: [] };
+	if (!existsSync(INDEX_FILE))
+		return { version: 1, updatedAt: new Date().toISOString(), presets: [] };
 	const parsed = JSON.parse(readFileSync(INDEX_FILE, "utf8"));
 	if (!parsed || typeof parsed !== "object" || !Array.isArray(parsed.presets)) {
 		return { version: 1, updatedAt: new Date().toISOString(), presets: [] };
 	}
-	return { version: 1, updatedAt: parsed.updatedAt ?? "", presets: parsed.presets };
+	return {
+		version: 1,
+		updatedAt: parsed.updatedAt ?? "",
+		presets: parsed.presets,
+	};
 }
 
 /** 收纳一个预设文档：写 presets/<id>.json，返回 { entry, changed, file, removedFile }。 */
-export function ingest(doc, { issue, author, now = new Date().toISOString() } = {}) {
+export function ingest(
+	doc,
+	{ issue, author, now = new Date().toISOString() } = {},
+) {
 	const canonical = JSON.stringify(doc, null, "\t") + "\n";
 	const id = presetId(doc.name, canonical);
 	const file = `presets/${id}.json`;
@@ -138,18 +249,30 @@ export function ingest(doc, { issue, author, now = new Date().toISOString() } = 
 		summary: summarize(doc.settings),
 	};
 
-	const payload = { ...doc, id, author: entry.author, updatedAt: now, issue: entry.issue };
+	const payload = {
+		...doc,
+		id,
+		author: entry.author,
+		updatedAt: now,
+		issue: entry.issue,
+	};
 	const text = JSON.stringify(payload, null, "\t") + "\n";
 	const changed = !existsSync(target) || readFileSync(target, "utf8") !== text;
 	writeFileSync(target, text, "utf8");
 
-	index.presets = [entry, ...index.presets.filter((p) => p.id !== id && p.name !== doc.name)];
+	index.presets = [
+		entry,
+		...index.presets.filter((p) => p.id !== id && p.name !== doc.name),
+	];
 	index.updatedAt = now;
 	writeFileSync(INDEX_FILE, JSON.stringify(index, null, "\t") + "\n", "utf8");
 
 	// 同名旧条目：删掉旧文件，避免仓库里留双份。
 	const removedFile = stale.find((p) => p.file && p.file !== file)?.file ?? "";
-	if (removedFile && !stale.some((p) => p.file === removedFile && p.id === id)) {
+	if (
+		removedFile &&
+		!stale.some((p) => p.file === removedFile && p.id === id)
+	) {
 		try {
 			rmSync(join(ROOT, removedFile), { force: true });
 			process.stdout.write(`removed ${removedFile}\n`);
@@ -170,23 +293,34 @@ function main() {
 	});
 	const out = process.env.GITHUB_OUTPUT;
 	if (out) {
-		writeFileSync(out, `id=${entry.id}\nname=${entry.name}\nfile=${file}\nchanged=${changed ? 1 : 0}\n`, {
-			flag: "a",
-		});
+		writeFileSync(
+			out,
+			`id=${entry.id}\nname=${entry.name}\nfile=${file}\nchanged=${changed ? 1 : 0}\n`,
+			{
+				flag: "a",
+			},
+		);
 	}
 	process.stdout.write(`ok ${file} (changed=${changed})\n`);
 }
 
-const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+const isMain =
+	process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
 if (isMain) {
 	try {
 		main();
 	} catch (err) {
-		process.stderr.write(`::error::${err instanceof Error ? err.message : String(err)}\n`);
+		process.stderr.write(
+			`::error::${err instanceof Error ? err.message : String(err)}\n`,
+		);
 		if (process.env.GITHUB_OUTPUT) {
-			writeFileSync(process.env.GITHUB_OUTPUT, `error=${(err instanceof Error ? err.message : String(err)).replace(/\n/g, " ")}\n`, {
-				flag: "a",
-			});
+			writeFileSync(
+				process.env.GITHUB_OUTPUT,
+				`error=${(err instanceof Error ? err.message : String(err)).replace(/\n/g, " ")}\n`,
+				{
+					flag: "a",
+				},
+			);
 		}
 		process.exit(1);
 	}

@@ -6,6 +6,20 @@
 - 目录清单：[`index.json`](index.json)（客户端「设置 → 预设 → 浏览分享」读的就是它）
 - 预设文件：[`presets/`](presets/)
 
+## 精选预设
+
+| 预设                 | 适用场景               | 交付重点                                   |
+| -------------------- | ---------------------- | ------------------------------------------ |
+| 日常开发 Development | 功能开发、小范围改造   | 验收条件、完整实现、相关验证               |
+| 故障修复 Debugging   | 报错、竞态、偶发故障   | 复现证据、根因、针对性回归                 |
+| 代码审查 Review      | diff、提交或模块审查   | 严重性、文件行号、触发条件；默认不修改代码 |
+| 性能优化 Performance | 加载慢、卡顿、内存增长 | 基线、瓶颈证据、同负载对比与正确性         |
+| 文档写作 Writing     | 教程、说明、报告       | 事实核对、可用步骤、准确引用               |
+
+这五份预设保留全部动态提示词来源，仅替换组合模板、清空逐段覆盖和禁用段，并提供对应的三条快捷短语。不会携带审批、工具开关或固定压缩参数。应用前请保存原配置；快捷短语列表会被替换。Review 是行为约定，不构成只读权限隔离。
+
+分享文档还可携带顶层 `plugins` 依赖列表（`id`、`name`、GitHub `source`、参考 `version`）。支持该功能的客户端可识别缺失插件并通过安装确认安装；版本用于对比，不保证锁定版本。插件密钥、配置、存储及权限授权不在分享范围内。旧客户端会忽略此元数据。
+
 ## 用别人的预设
 
 **最省事**：pi-web-ui → **设置 → 预设 → 浏览分享**，搜索后点「导入」。
@@ -35,13 +49,13 @@ PR，添加 `presets/<文件>.json` **和** `index.json` 里的对应条目（�
 {
   "format": "pi-web-ui-preset",
   "version": 1,
-  "name": "我的预设",              // 必填，≤ 60 字，导入后的预设名
-  "description": "适合什么场景",     // 选填，≤ 500 字
-  "author": "github 用户名",        // 选填
-  "tags": ["编程", "极简"],         // 选填，≤ 8 个
+  "name": "我的预设", // 必填，≤ 60 字，导入后的预设名
+  "description": "适合什么场景", // 选填，≤ 500 字
+  "author": "github 用户名", // 选填
+  "tags": ["编程", "极简"], // 选填，≤ 8 个
   "createdAt": "2026-01-01T00:00:00.000Z",
-  "appVersion": "1.2.3",           // 选填
-  "settings": { /* pi-web-ui 的 SettingsPreset 字段 */ }
+  "appVersion": "1.2.3", // 选填
+  "settings": {/* pi-web-ui 的 SettingsPreset 字段 */},
 }
 ```
 
@@ -55,15 +69,21 @@ PR，添加 `presets/<文件>.json` **和** `index.json` 里的对应条目（�
 
 ```jsonc
 {
-  "id": "my-preset-1a2b3c4",       // <slug>-<sha1(settings) 前 7 位>
+  "id": "my-preset-1a2b3c4", // <slug>-<sha1(settings) 前 7 位>
   "name": "我的预设",
   "description": "…",
   "author": "github 用户名",
   "tags": ["编程"],
   "file": "presets/my-preset-1a2b3c4.json",
-  "issue": 12,                      // 来源 Issue（手工 PR 时无此项）
+  "issue": 12, // 来源 Issue（手工 PR 时无此项）
   "updatedAt": "2026-01-01T00:00:00.000Z",
-  "summary": { "promptMode": "append", "skills": 2, "agentTools": 0, "hasTemplate": true, "hasReviewPrompt": false }
+  "summary": {
+    "promptMode": "append",
+    "skills": 2,
+    "agentTools": 0,
+    "hasTemplate": true,
+    "hasReviewPrompt": false,
+  },
 }
 ```
 
@@ -74,10 +94,10 @@ PR，添加 `presets/<文件>.json` **和** `index.json` 里的对应条目（�
 
 ## 自动化
 
-| 工作流 | 触发 | 作用 |
-| --- | --- | --- |
-| [`ingest-preset.yml`](.github/workflows/ingest-preset.yml) | 标题以 `[preset] …` 开头的 Issue 打开/编辑 | 校验 JSON → 写 `presets/<id>.json` → 更新 `index.json` → 提交 → 评论 → 关闭 |
-| [`validate-presets.yml`](.github/workflows/validate-presets.yml) | 推送/PR 改到 `presets/**`、`index.json` | 跑 `node scripts/validate-repo.mjs`，保证清单与文件自洽 |
+| 工作流                                                           | 触发                                       | 作用                                                                        |
+| ---------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------- |
+| [`ingest-preset.yml`](.github/workflows/ingest-preset.yml)       | 标题以 `[preset] …` 开头的 Issue 打开/编辑 | 校验 JSON → 写 `presets/<id>.json` → 更新 `index.json` → 提交 → 评论 → 关闭 |
+| [`validate-presets.yml`](.github/workflows/validate-presets.yml) | 推送/PR 改到 `presets/**`、`index.json`    | 跑 `node scripts/validate-repo.mjs`，保证清单与文件自洽                     |
 
 ## 许可
 
