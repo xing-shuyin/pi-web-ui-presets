@@ -1,7 +1,28 @@
 {
 	"version": 1,
-	"updatedAt": "2026-10-21T01:59:32.982Z",
+	"updatedAt": "2026-10-29T05:24:56.246Z",
 	"presets": [
+		{
+			"id": "claude-code-0815c0d",
+			"name": "Claude Code 风格编码（实验）",
+			"description": "提炼调查、根因修复、持续执行和验证闭环的实验预设；非 Anthropic 官方提示词。保留所有自动提示词来源，清空逐段覆盖并启用所有段落。",
+			"author": "xing-shuyin",
+			"tags": [
+				"coding",
+				"experimental",
+				"workflow"
+			],
+			"file": "presets/claude-code-0815c0d.json",
+			"issue": null,
+			"updatedAt": "2026-10-29T05:24:56.246Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 0,
+				"agentTools": 0,
+				"hasTemplate": true,
+				"hasReviewPrompt": false
+			}
+		},
 		{
 			"id": "preset-aa7fa06",
 			"name": "当前设置",
