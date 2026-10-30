@@ -1,7 +1,24 @@
 {
 	"version": 1,
-	"updatedAt": "2026-10-29T05:40:03.633Z",
+	"updatedAt": "2026-10-29T15:51:17.696Z",
 	"presets": [
+		{
+			"id": "preset-0c4f76b",
+			"name": "暗夜极简",
+			"description": "完整复刻作者当前保存的界面布局与全部可分享设置：纯图标顶栏、浮动侧栏、按钮顺序与显隐、底栏分组、快捷短语，以及提示词和工具开关。附当前启用插件依赖；应用会替换这些设置，包括关闭工具审批。主题颜色、字号等浏览器本地偏好不属于现有预设格式，需在目标浏览器另行选择；插件私有配置与密钥不随预设导出。",
+			"author": "xing-shuyin",
+			"tags": ["界面", "极简", "布局", "完整配置"],
+			"file": "presets/preset-0c4f76b.json",
+			"issue": null,
+			"updatedAt": "2026-10-29T15:51:17.696Z",
+			"summary": {
+				"promptMode": "append",
+				"skills": 1,
+				"agentTools": 88,
+				"hasTemplate": false,
+				"hasReviewPrompt": false
+			}
+		},
 		{
 			"id": "writing-d1f9f00",
 			"name": "文档写作 Writing",
